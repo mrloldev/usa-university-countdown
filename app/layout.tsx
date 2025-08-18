@@ -1,24 +1,19 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 import { ModeToggle } from "@/components/theme-toggle";
 import { Analytics } from "@vercel/analytics/react";
 import dynamic from "next/dynamic";
-import ErrorBoundary from "@/components/ErrorBoundary";
+import ErrorBoundary from "@/components/error-boundary";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import universities from "@/universities";
+import universities from "@/data/universities";
 import { Toaster } from "@/components/ui/toaster";
+import { Inter } from "next/font/google";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+const inter = Inter({
+  subsets: ["latin"],
   variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+  weight: ["400", "500", "600"],
 });
 
 export const viewport = {
@@ -80,7 +75,6 @@ export const metadata: Metadata = {
     google: "cPoEeLVQ9rRKkbhtGjsfWJNWeFUYI7u_iudiKZNS1KI",
   },
   manifest: "/manifest.json",
-  themeColor: "#000000",
   alternates: {
     canonical: "https://collegedecision.us",
     languages: {
@@ -125,7 +119,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Add this new jsonLd metadata
 export const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -135,7 +128,6 @@ export const jsonLd = {
   url: "https://collegedecision.us",
 };
 
-// Dynamically import service worker registration
 const SwRegister = dynamic(() => import("./sw-register"), {
   ssr: true,
 });
@@ -156,7 +148,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://logo.clearbit.com" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative overflow-auto py-5`}
+        className={`${inter.className} antialiased relative overflow-auto py-5`}
       >
         <ThemeProvider
           attribute="class"

@@ -1,7 +1,7 @@
-import { UsaUniversityCountdown } from "@/components/UsaUniversityCountdown";
+import { UsaUniversityCountdown } from "@/components/usa-university-countdown";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import universities from "@/universities";
+import universities from "@/data/universities";
 import type { Viewport } from "next";
 
 interface Props {
@@ -18,7 +18,6 @@ export default async function Page(props: Props) {
     notFound();
   }
 
-  // Clean the domain parameter
   const cleanDomain = domain
     .replace(/^https?:\/\//, "")
     .replace(/^www\./, "")
@@ -35,14 +34,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const domain = await params.domain;
 
-  // Clean the domain parameter
   const cleanDomain = domain
     .replace(/^https?:\/\//, "")
     .replace(/^www\./, "")
     .replace(/\/+$/, "")
     .trim();
 
-  // Find university data
   const university = universities.find(
     (uni) => uni.domain.toLowerCase() === cleanDomain.toLowerCase()
   );
@@ -58,7 +55,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     };
   }
   const universityAbbreviation = university.domain.split(".")[0];
-  // Generate university-specific keywords
   const keywords = [
     university.name,
     `${university.name} decision date`,
@@ -78,7 +74,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     "admission dates",
   ].join(", ");
 
-  // Get logo URL
   const logoUrl = university.fileExists
     ? `/logos/${university.domain}.jpg`
     : `https://logo.clearbit.com/${university.domain}`;
@@ -93,11 +88,20 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       url: `https://collegedecision.us/${cleanDomain}`,
       type: "website",
       siteName: "USA University Countdown",
+      images: [
+        {
+          url: `/api/og?domain=${cleanDomain}`,
+          width: 1200,
+          height: 630,
+          alt: `${university.name} Decision Date Countdown`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: `${university.name} Decision Date Countdown`,
       description: `Track ${university.name}'s college application decision dates and notifications.`,
+      images: [`/api/og?domain=${cleanDomain}`],
     },
     icons: {
       icon: logoUrl,
@@ -119,5 +123,5 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#000000", // Default theme color
+  themeColor: "#000000",
 };
