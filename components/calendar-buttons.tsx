@@ -7,6 +7,7 @@ interface CalendarButtonsProps {
   date: string;
   time?: string;
   className?: string;
+  type?: "decision" | "deadline";
 }
 
 export function CalendarButtons({
@@ -14,11 +15,12 @@ export function CalendarButtons({
   date,
   className,
   time = "19:00:00",
+  type = "decision",
 }: CalendarButtonsProps) {
-  const [day, month, year] = date.split("-");
+  const [month, day, year] = date.split("-");
   const formattedDate = `20${year}-${month}-${day}T${time}-05:00`;
-  const eventTitle = `${title} Decision Results`;
-  const description = `Decision results for ${title}`;
+  const eventTitle = `${title} ${type === "decision" ? "Decision Results" : "Application Deadline"}`;
+  const description = `${type === "decision" ? "Decision results for" : "Application deadline for"} ${title}`;
 
   const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
     eventTitle

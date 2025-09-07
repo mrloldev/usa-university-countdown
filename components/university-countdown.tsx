@@ -171,7 +171,7 @@ export function UniversityCountdown({
         <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
           <TooltipProvider>
             <div className="text-center mb-4">
-              <Avatar className="h-24 w-24 mx-auto mb-4 ring-2 ring-primary/20 shadow-lg">
+              <Avatar className="h-24 w-24 mx-auto mb-4 ring-2 ring-primary/20 shadow-lg bg-white">
                 <AvatarImage
                   src={`/logos/${university.domain}.jpg`}
                   alt={`${university.name} logo`}
@@ -274,10 +274,11 @@ export function UniversityCountdown({
                 Add to Calendar
               </h3>
               <CalendarButtons
-                title={`${university.name} Early Application`}
+                title={`${university.name}(early)`}
                 date={university.applicationEarly || ""}
                 time="19:00"
                 className="w-full"
+                type="deadline"
               />
             </div>
           </div>

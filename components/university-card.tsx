@@ -256,7 +256,7 @@ export function UniversityCard({ university, onSelect }: UniversityCardProps) {
               )}
 
               <div className="flex flex-col items-center space-y-3">
-                <Avatar className="h-12 w-12 ring-2 ring-background shadow-sm">
+                <Avatar className="h-12 w-12 ring-2 ring-background shadow-sm bg-white">
                   <Image
                     src={
                       university.fileExists
